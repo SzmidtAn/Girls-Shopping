@@ -83,23 +83,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
         Bundle bundle = new Bundle();
         bundle.putInt(ProductDetailFragment.PRODUCTS_ID, id);
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ProductDetailFragment animalDetailFragment = new ProductDetailFragment();
-            animalDetailFragment.setArguments(bundle);
-            findViewById(R.id.label_show_details).setVisibility(View.GONE);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container_animal_detail, animalDetailFragment);
-            transaction.addToBackStack(null);
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.commit();
 
-            return;
-        }
-
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Intent intent = new Intent(this, ProductDetailActivity.class);
+        Intent intent = new Intent(this, ProductDetailActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
         }
     }
-}
