@@ -1,30 +1,24 @@
 package com.example.girlsshopping.products;
 
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
 import com.example.girlsshopping.ui.home.RecyclerViewHolder;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Random;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     private List<Product> products;
-    CardView cardView;
-
-
 
     public ProductRecyclerViewAdapter(List<Product> animals) {
         this.products = animals;
@@ -37,41 +31,40 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @NonNull
     @Override
-    public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
 
         View v =  LayoutInflater.from(parent.getContext()).inflate(R.layout.products_list, parent, false);
         RecyclerViewHolder viewHolder = new RecyclerViewHolder(v);
         viewHolder.textViewNameProd =  v.findViewById(R.id.nameTeview);
-
-        viewHolder.cardView=v.findViewById(R.id.productCardView);
         viewHolder.viewImage = v.findViewById(R.id.productsImageView);
 
+        final CheckBox checkBox=v.findViewById(R.id.checkBoxList);
 
+        checkBox.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        //is chkIos checked?
+        if (((CheckBox) v).isChecked()) {
+            Toast.makeText(parent.getContext(), "Jak miło, że podoba Ci się nasz produkt :)", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(parent.getContext(), "No trudno :(", Toast.LENGTH_LONG).show();
 
+        }
 
+    }
+});
         return viewHolder;
-
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerViewHolder holder, int position) {
         final Product product = products.get(position);
-        holder.textViewNameProd.setText(product.name);
-        holder.viewImage.setImageResource(product.image);
+        holder.textViewNameProd.setText(product.getName());
 
-       holder.cardView.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "Wybrałeś " + product.name + "! \nDobra decyzja :)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
-
-
+        holder.viewImage.setImageResource(product.getImage());
+        Random random=new Random();
+        int productId=random.nextInt();
+        product.setId(productId);
     }
 
     @Override

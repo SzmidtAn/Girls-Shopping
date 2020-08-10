@@ -4,21 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:clickable="true"
+    tools:context=".ui.home.HomeFragment"
+
+    android:focusable="true">
 
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProducts"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:visibility="visible"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+  <androidx.recyclerview.widget.RecyclerView android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      android:id="@+id/recyclerview"
+      android:nestedScrollingEnabled="true"
+      android:clickable="true"
+      android:focusable="true" />
 </RelativeLayout>
