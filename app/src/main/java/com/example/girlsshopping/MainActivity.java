@@ -1,34 +1,28 @@
 package com.example.girlsshopping;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.girlsshopping.R;
+import com.example.girlsshopping.products.AddProductActivity;
 import com.example.girlsshopping.products.ProductDetailActivity;
 import com.example.girlsshopping.products.ProductDetailFragment;
 import com.example.girlsshopping.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnProductClickedListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnProductClickedListener{
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -37,14 +31,15 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
         setContentView(R.layout.activity_fragments_product_list);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
+
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Nowa funkcja podglądu koszyka już wkrótce!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               Intent intent=new Intent(getApplicationContext(), AddProductActivity.class);
+               startActivity(intent);
             }
         });
 
@@ -61,7 +56,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
     }
+
 
 
 
@@ -89,15 +86,15 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
         }        return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onProductClicked(int id) {
         Bundle bundle = new Bundle();
         bundle.putInt(ProductDetailFragment.PRODUCTS_ID, id);
 
-
         Intent intent = new Intent(this, ProductDetailActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
         }
+
+
     }

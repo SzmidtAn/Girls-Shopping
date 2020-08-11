@@ -9,6 +9,11 @@ public class ProductRepository {
 
     private static List<Product> productList;
 
+    public static void addProduct(Product product) {
+        productList.add(product);
+    }
+
+
     static {
         productList = new ArrayList<>(3);
 
