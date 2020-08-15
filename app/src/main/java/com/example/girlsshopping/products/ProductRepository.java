@@ -2,6 +2,8 @@ package com.example.girlsshopping.products;
 import com.example.girlsshopping.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -10,7 +12,7 @@ public class ProductRepository {
     private static List<Product> productList;
 
     public static void addProduct(Product product) {
-        productList.add(product);
+        productList.add(0, product);
     }
 
 
@@ -556,6 +558,9 @@ public class ProductRepository {
                 "Obcas: Szpilka obcas w kolorze cholewki\n" +
                 "\n" +
                 "Sandały damskie GUESS w kolorze czarnym powinny pojawić się w szafie każdej modnej kobiety. Wykonane z naturalnej skóry licowej na zewnątrz. Klamerki ułatwiają zakładanie i dopasowanie do nogi. Niewysoka platforma dodają sandałom ciekawego i eleganckiego wyglądu. Sandały staną się ozdobą wielu stylizacji sezonu letniego. Będą pasowały do sukienki, spódnicy, jak i do spodni. Wygodę zapewnia perfekcyjnie wyprofilowany obcas"));
+
+
+
     }
 
     public static List<Product> getProductList() {

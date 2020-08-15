@@ -1,55 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scrollView"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    android:orientation="vertical"
-    android:padding="15dp"
-    android:scrollbarAlwaysDrawHorizontalTrack="true">
+    android:layout_height="match_parent">
 
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/imageDetailFragment"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:contentDescription="TODO"
         android:padding="10dp"
         android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/suunglases" />
-
     <TextView
         android:id="@+id/ttitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="start"
         android:padding="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        tools:text="Kot" />
+        tools:text="Kot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageDetailFragment" />
+
+    <TextView
+        android:id="@+id/priceDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:text="Kot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttitle" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonShop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Kup teraz"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/priceDetail" />
 
     <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="start"
         android:padding="10dp"
         android:scrollbars="horizontal"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        tools:text="Przeciwsłoneczne okulary to niezbędny element stroju dla wszystkich stylowych kobiet i mężczyzn." />
+        tools:text="Przeciwsłoneczne okulary to niezbędny element stroju dla wszystkich stylowych kobiet i mężczyzn."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/buttonShop" />
 
-</LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMail"
+        android:layout_width="56dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/fab_margin"
+
+        app:layout_constraintEnd_toEndOf="@id/imageDetailFragment"
+        app:layout_constraintTop_toTopOf="@+id/imageDetailFragment"
+        app:srcCompat="@android:drawable/sym_action_email" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

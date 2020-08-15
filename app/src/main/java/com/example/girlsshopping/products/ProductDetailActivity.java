@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         ProductDetailFragment details = new ProductDetailFragment();
        details.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(android.R.id.content, details).commit();
+
 
 
 

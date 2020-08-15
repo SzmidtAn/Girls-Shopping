@@ -1,0 +1,39 @@
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout android:background="@color/colorPrimary"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+</LinearLayout>
+
+<ImageView
+
+android:layout_marginTop="90dp"
+android:layout_centerHorizontal="true"
+android:id="@+id/image_view"
+android:layout_width="300dp"
+android:layout_height="200dp" />
+
+
+<LinearLayout
+android:layout_marginTop="50dp"
+android:layout_below="@+id/image_view"
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:gravity="center">
+<Button
+    android:id="@+id/save_btn"
+    android:textAllCaps="false"
+    android:textStyle="bold"
+    android:textColor="#ffff"
+    android:background="@color/colorPrimary"
+    android:text="Save Image"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+</RelativeLayout>

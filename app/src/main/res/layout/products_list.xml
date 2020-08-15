@@ -38,7 +38,7 @@
 
         android:padding="10dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/cap"
+
 
 
 

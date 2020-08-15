@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment{
         try {
             onProductClickedListener = (OnProductClickedListener) activity;
 
+            Toast.makeText(getContext(), "ladowanie", Toast.LENGTH_SHORT).show();
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnAnimalClickedListener");
         }
