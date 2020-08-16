@@ -1,11 +1,13 @@
 package com.example.girlsshopping.ui.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -46,6 +48,9 @@ public class HomeFragment extends Fragment{
 
 
 
+
+
+
         return view;
     }
 
@@ -56,7 +61,6 @@ public class HomeFragment extends Fragment{
         try {
             onProductClickedListener = (OnProductClickedListener) activity;
 
-            Toast.makeText(getContext(), "ladowanie", Toast.LENGTH_SHORT).show();
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnAnimalClickedListener");
         }
@@ -65,7 +69,6 @@ public class HomeFragment extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
-        Toast.makeText(getContext(), "onDetach", Toast.LENGTH_SHORT).show();
         onProductClickedListener = null;
     }
 
@@ -76,7 +79,6 @@ public class HomeFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-        Toast.makeText(getContext(), "onStart", Toast.LENGTH_SHORT).show();
 
 refreshAdapterData();
 

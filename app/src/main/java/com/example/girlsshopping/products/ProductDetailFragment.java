@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,21 +41,48 @@ public class ProductDetailFragment extends Fragment {
     private TextView description;
     private Button button;
     private String photoString;
+    private TextView category;
+    private TextView size;
+    private TextView brand;
+    private TextView condition;
+
     private Uri uri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_detail, container, false);
+        final View view = inflater.inflate(R.layout.fragment_product_detail, container, false);
         title = (TextView) view.findViewById(R.id.ttitle);
         imageView = (ImageView) view.findViewById(R.id.imageDetailFragment);
         description = (TextView) view.findViewById(R.id.description);
         price=view.findViewById(R.id.priceDetail);
         button=view.findViewById(R.id.buttonShop);
+        category=view.findViewById(R.id.category);
+        size=view.findViewById(R.id.size);
+        brand=view.findViewById(R.id.brand);
+        condition=view.findViewById(R.id.condition);
 
 
 
 
+        CheckBox checkBox=view.findViewById(R.id.likeCkeckBox);
 
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //is chkIos checked?
+                if (((CheckBox) v).isChecked()) {
+                    Toast.makeText(view.getContext(), "Jak miło, że podoba Ci się nasz produkt :)", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(view.getContext(), "No trudno :(", Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+
+
+
+
+        });
 
 
         FloatingActionButton fabMail = view.findViewById(R.id.fabMail);
@@ -99,14 +128,21 @@ public class ProductDetailFragment extends Fragment {
     public void showAnimal(Product product) {
 
         if (product.getName() != null) {
-            price.setText(product.getName() + " zł");
+            title.setText(product.getName());
+        }else
+            title.setText( "99,99 zł");
+
+        if (product.getDescription() != null) {
+            price.setText(product.getPrice() + " zł");
         }else
             price.setText( "99,99 zł");
 
-        if (product.getDescription() != null) {
-            price.setText(product.getDescription() + " zł");
-        }else
-            price.setText( "99,99 zł");
+
+        category.setText("Kategoria: " + product.getCategory() );
+        size.setText("Rozmiar: " + product.getSize() );
+        brand.setText("Marka: " + product.getBrand() );
+        condition.setText("Stan: " + product.getCondition());
+
 
         if (product.getPhotoString() != null){
 
@@ -114,7 +150,8 @@ public class ProductDetailFragment extends Fragment {
 
             Glide.with(getActivity().getApplicationContext())
                 .asBitmap()
-                .load(product.getPhotoString())
+                .load(R.drawable.backpack)
+                    .centerCrop()
                     .into(imageView);
         }else
             Glide.with(this)
@@ -125,9 +162,9 @@ public class ProductDetailFragment extends Fragment {
 
 
         if (product.getPrice() != null) {
-            price.setText(product.getPrice() + " zł");
+            description.setText(product.getDescription() + " zł");
         }else
-            price.setText( "99,99 zł");
+            description.setText( "99,99 zł");
 
         button.setText("Kup teraz");
     }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/productsImageView"
+        android:layout_width="match_parent"
+        android:layout_height="388dp"
+        app:layout_constraintTop_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/nameTeview"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:clickable="false"
+        android:paddingLeft="25dp"
+        android:paddingTop="15dp"
+        android:text="Android Version"
+        android:textAlignment="textStart"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:typeface="serif"
+        app:layout_constraintTop_toBottomOf="@id/productsImageView"/>
+
+
+    <TextView
+        android:id="@+id/price"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:paddingLeft="25dp"
+        android:text="85,99 zł"
+        android:textAlignment="textStart"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:tooltipText="99,99 zl"
+        app:layout_constraintTop_toBottomOf="@id/nameTeview"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

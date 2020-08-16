@@ -1,30 +1,16 @@
 package com.example.girlsshopping.products;
 
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.media.MediaBrowserCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,32 +19,19 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.BitmapDrawableDecoder;
-import com.bumptech.glide.load.resource.bitmap.BitmapImageDecoderResourceDecoder;
 import com.bumptech.glide.request.target.ViewTarget;
-import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
-import com.example.girlsshopping.products.ProductCategory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static java.lang.System.in;
-import static java.lang.System.out;
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -87,10 +60,63 @@ public class AddProductActivity extends AppCompatActivity {
         setContentView(R.layout.add_product);
 
         Spinner categorySpinner = findViewById(R.id.expense_category);
+        Spinner sizeSpinner = findViewById(R.id.productSize);
+        Spinner brandSpinner = findViewById(R.id.productBrand);
+        Spinner conditionSpinner = findViewById(R.id.productCondition);
+
 
         ProductCategory[] categories = ProductCategory.values();
         ArrayAdapter<ProductCategory> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, categories);
         categorySpinner.setAdapter(adapter);
+
+        // Spinner Drop down elements
+        List<String> size = new ArrayList<String>();
+        size.add("XS");
+        size.add("S");
+        size.add("M ");
+        size.add("L");
+        size.add("XL");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> sizeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, size);
+        // Drop down layout style - list view with radio button
+        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // attaching data adapter to spinner
+        sizeSpinner.setAdapter(sizeAdapter);
+
+
+        // Spinner Drop down elements
+        List<String> brand = new ArrayList<String>();
+        brand.add("Reserved");
+        brand.add("H&M");
+        brand.add("Nike");
+        brand.add("Adidas");
+        brand.add("Other");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> brandAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, brand);
+        // Drop down layout style - list view with radio button
+        brandAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // attaching data adapter to spinner
+        brandSpinner.setAdapter(brandAdapter);
+
+
+     // Spinner Drop down elements
+        List<String> condition = new ArrayList<String>();
+        condition.add("Nowe");
+        condition.add("Dobry");
+        condition.add("Idealny");
+        condition.add("Mocno używane");
+
+        // Creating adapter for spinner
+        ArrayAdapter<String> conditionAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, condition);
+        // Drop down layout style - list view with radio button
+        conditionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // attaching data adapter to spinner
+        conditionSpinner.setAdapter(conditionAdapter);
+
+
+
 
         Button newExpenseButton = findViewById(R.id.add_expense);
 
@@ -108,20 +134,22 @@ public class AddProductActivity extends AppCompatActivity {
         EditText descriptionEditText = findViewById(R.id.product_description);
         EditText priceEditText = findViewById(R.id.expense_price);
         Spinner categorySpinner = findViewById(R.id.expense_category);
+        Spinner sizeSpinner = findViewById(R.id.productSize);
+        Spinner brandSpinner = findViewById(R.id.productBrand);
+        Spinner conditionSpinner = findViewById(R.id.productCondition);
 
 
         String title = nameEditText.getText().toString();
         String price = priceEditText.getText().toString();
         String description = descriptionEditText.getText().toString();
-
-
+        String size = sizeSpinner.getSelectedItem().toString();
+        String brand = brandSpinner.getSelectedItem().toString();
+        String condition = conditionSpinner.getSelectedItem().toString();
 
 
         ProductCategory category = (ProductCategory) categorySpinner.getSelectedItem();
 
-        product = new Product( title,  description,  category, price, photoString);
-
-
+        product = new Product( title,  description,  category, price, photoString, size, brand, condition);
 
         ProductRepository.addProduct(product);
 
@@ -193,7 +221,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 
-            Glide.with(this).asBitmap().load(photoString).fitCenter().into(imageView);
+            Glide.with(this).asBitmap().load(photoString).centerCrop().into(imageView);
 
 
 
