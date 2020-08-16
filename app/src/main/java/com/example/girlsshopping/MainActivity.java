@@ -17,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.girlsshopping.products.AddProductActivity;
 import com.example.girlsshopping.products.ProductDetailActivity;
 import com.example.girlsshopping.products.ProductDetailFragment;
+import com.example.girlsshopping.products.ProductRecyclerViewAdapter;
 import com.example.girlsshopping.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -60,7 +61,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

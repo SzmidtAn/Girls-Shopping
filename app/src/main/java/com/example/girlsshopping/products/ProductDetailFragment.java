@@ -3,6 +3,7 @@ package com.example.girlsshopping.products;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,18 +12,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.girlsshopping.R;
 import com.example.girlsshopping.dialog.DialogMail;
 import com.example.girlsshopping.dialog.ShopDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ProductDetailFragment extends Fragment {
 
@@ -76,28 +82,44 @@ public class ProductDetailFragment extends Fragment {
             int animalId = getArguments().getInt(PRODUCTS_ID);
             showAnimal(ProductRepository.getProductList().get(animalId));
         }
+
+
+        for (int i = 0; i <ProductRepository.getProductList().size() ; i++) {
+            System.out.println(ProductRepository.getProductList().get(i).getPhotoString().toString());
+        }
+
+
         return view;
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-
-
-    }
 
     @SuppressLint("SetTextI18n")
     public void showAnimal(Product product) {
-        title.setText(product.getName());
-        description.setText(product.getDescription());
+
+        if (product.getName() != null) {
+            price.setText(product.getName() + " zł");
+        }else
+            price.setText( "99,99 zł");
+
+        if (product.getDescription() != null) {
+            price.setText(product.getDescription() + " zł");
+        }else
+            price.setText( "99,99 zł");
+
+        if (product.getPhotoString() != null){
 
 
 
-        Glide.with(imageView.getContext())
+            Glide.with(getActivity().getApplicationContext())
                 .asBitmap()
-                .load(Uri.parse(product.getPhotoString()))
+                .load(product.getPhotoString())
+                    .into(imageView);
+        }else
+            Glide.with(this)
+                .asBitmap()
+                .load(R.drawable.backpack)
                 .into(imageView);
 
 

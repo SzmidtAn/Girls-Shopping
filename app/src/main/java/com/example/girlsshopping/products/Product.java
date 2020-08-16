@@ -4,31 +4,15 @@ import android.net.Uri;
 
 public class Product {
 
-
-    private int phot;
     private String name;
     private String description;
     private ProductCategory category;
     private String  price;
     private long id;
     private String photoString;
-    private Uri uri;
 
-    public int getPhot() {
-        return phot;
-    }
 
-    public String getPhotoString() {
-        return photoString;
-    }
 
-    public void setPhotoString(String photoString) {
-        this.photoString = photoString;
-    }
-
-    public void setPhot(int phot) {
-        this.phot = phot;
-    }
 
     public Product(String name, String description, ProductCategory category, String price, String photoString) {
         this.name = name;
@@ -37,34 +21,6 @@ public class Product {
         this.price = price;
         this.photoString = photoString;
     }
-
-    public Uri getUri() {
-        return uri;
-    }
-
-    public void setUri(Uri uri) {
-        this.uri = uri;
-    }
-
-    public Product(String name, String description, ProductCategory category, String price) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.price = price;
-
-    }
-
-
-    public Product(int phot, String name, String description) {
-        this.name = name;
-        this.phot=phot;
-        this.description = description;
-        this.category = category;
-        this.price = price;
-
-    }
-
-
 
     public String getName() {
         return name;
@@ -106,5 +62,11 @@ public class Product {
         this.id = id;
     }
 
+    public String getPhotoString() {
+        return photoString;
+    }
 
+    public void setPhotoString(String photoString) {
+        this.photoString = photoString;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.girlsshopping.ui.home;
 
 import android.app.Activity;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.girlsshopping.R;
+import com.example.girlsshopping.products.Product;
 import com.example.girlsshopping.products.ProductRecyclerViewAdapter;
 import com.example.girlsshopping.products.ProductRepository;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment{
 
     private HomeFragment.OnProductClickedListener onProductClickedListener;
 
     private RecyclerView recyclerView;
+
+    private ProductRecyclerViewAdapter productRecyclerViewAdapter;
 
     @Override
     public View onCreateView(
@@ -32,8 +38,11 @@ public class HomeFragment extends Fragment{
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        ProductRecyclerViewAdapter adapter=new ProductRecyclerViewAdapter(ProductRepository.getProductList());
-        recyclerView.setAdapter(adapter);
+
+        List<Product> expenses = ProductRepository.getProductList();
+
+        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(getActivity(), expenses);
+        recyclerView.setAdapter(productRecyclerViewAdapter);
 
 
 
@@ -56,7 +65,7 @@ public class HomeFragment extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
-        System.out.println("fefewfewfewfewfewFEW");
+        Toast.makeText(getContext(), "onDetach", Toast.LENGTH_SHORT).show();
         onProductClickedListener = null;
     }
 
@@ -67,11 +76,32 @@ public class HomeFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
-    recyclerView.invalidate();
+        Toast.makeText(getContext(), "onStart", Toast.LENGTH_SHORT).show();
+
+refreshAdapterData();
+
+
+
+
     }
+
+
 
     public interface OnProductClickedListener {
         void onProductClicked(int id);
+    }
+
+
+    private void refreshAdapterData() {
+        List<Product> expenses = ProductRepository.getProductList();
+        if (expenses!= null){
+
+        productRecyclerViewAdapter.setExpenses(expenses);
+        productRecyclerViewAdapter.notifyDataSetChanged();
+        }
+
+
+
     }
 
 }

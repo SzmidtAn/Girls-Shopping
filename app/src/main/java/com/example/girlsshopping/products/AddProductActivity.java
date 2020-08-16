@@ -6,6 +6,9 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,6 +54,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.UUID;
 
 import static java.lang.System.in;
@@ -104,7 +108,7 @@ public class AddProductActivity extends AppCompatActivity {
         EditText descriptionEditText = findViewById(R.id.product_description);
         EditText priceEditText = findViewById(R.id.expense_price);
         Spinner categorySpinner = findViewById(R.id.expense_category);
-        ImageView imageView = findViewById(R.id.photo);
+
 
         String title = nameEditText.getText().toString();
         String price = priceEditText.getText().toString();
@@ -115,8 +119,8 @@ public class AddProductActivity extends AppCompatActivity {
 
         ProductCategory category = (ProductCategory) categorySpinner.getSelectedItem();
 
-        product = new Product( title,  description,  category, price);
-        product.setPhotoString(photoString);
+        product = new Product( title,  description,  category, price, photoString);
+
 
 
         ProductRepository.addProduct(product);
@@ -136,10 +140,11 @@ public class AddProductActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
             photoFile = createImageFile();
-            photoString = photoFile.getAbsolutePath();
 
 
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoString);
+
 
             startActivityForResult(intent, PICK_IMAGE);
         }
@@ -172,12 +177,23 @@ public class AddProductActivity extends AppCompatActivity {
 
             imageView=findViewById(R.id.photo);
 
-            photoString=data.getData().toString();
+            fileUri=data.getData();
+
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            List<ResolveInfo> resolvedIntentActivities = this.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
+                String packageName = resolvedIntentInfo.activityInfo.packageName;
+
+            }
+
+
+            photoString=fileUri.toString();
 
 
 
 
-            Glide.with(this).load(photoString).fitCenter().into(imageView);
+
+            Glide.with(this).asBitmap().load(photoString).fitCenter().into(imageView);
 
 
 

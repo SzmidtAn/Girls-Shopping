@@ -3,8 +3,11 @@ package com.example.girlsshopping.products;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,10 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     public ProductRecyclerViewAdapter(Context context, List<Product> animals) {
 
         this.products = animals;
+    }
+
+    public void setExpenses(List<Product> products) {
+        this.products = products;
     }
 
     public ProductRecyclerViewAdapter(List<Product> productList) {
@@ -78,21 +85,35 @@ this.products=productList;
             if (product.getName() != null) {
 
                 holder.textViewNameProd.setText(product.getName());
-            }
+            }else
+                holder.textViewNameProd.setText( "99,99 zł");
+
         if (product.getPrice() != null) {
             holder.productsPrice.setText(product.getPrice() + " zł");
-        }
+        }else
+            holder.productsPrice.setText( "99,99 zł");
 
 
             if (product.getPhotoString() != null) {
                 Glide.with(holder.viewImage.getContext())
                         .asBitmap()
-                        .load(Uri.parse(product.getPhotoString()))
+                        .load(product.getPhotoString())
                         .into(holder.viewImage);
-            }
+            }else
+                Glide.with(holder.viewImage.getContext())
+                        .asBitmap()
+                        .load(product.getPhotoString())
+                        .into(holder.viewImage);
 
 
         }
+
+
+
+
+
+
+
     }
 
 
@@ -109,9 +130,11 @@ this.products=productList;
             productsPrice=itemView.findViewById(R.id.price);
 
 
+
             itemView.setOnClickListener(this);
         }
 
+        @NonNull
         @Override
         public String toString() {
             return super.toString() + " '" + textViewNameProd.getText();
