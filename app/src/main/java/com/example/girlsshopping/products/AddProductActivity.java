@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static android.content.pm.PackageInstaller.SessionInfo.INVALID_ID;
+import static android.nfc.NfcAdapter.EXTRA_ID;
+
 public class AddProductActivity extends AppCompatActivity {
 
     private int PICK_IMAGE_REQUEST = 1;
@@ -43,7 +46,7 @@ public class AddProductActivity extends AppCompatActivity {
     int photo;
     private static final int CAMERA_REQUEST_CODE = 1234;
     private Uri fileUri;
-    private File file;
+    private File storageDir;
     public static final int PICK_IMAGE = 1;
     private static final int REQUEST_TAKE_PHOTO = 999;
 
@@ -149,10 +152,18 @@ public class AddProductActivity extends AppCompatActivity {
 
         ProductCategory category = (ProductCategory) categorySpinner.getSelectedItem();
 
-        product = new Product( title,  description,  category, price, photoString, size, brand, condition);
+        product = new Product( title,  description,  category, price, fileUri.toString(), size, brand, condition);
 
-        ProductRepository.addProduct(product);
+        ProductsDataBase.getDataBase(this).getProductDao().insert(product);
 
+
+        long id = INVALID_ID;
+        if (getIntent().getExtras() != null) {
+            id = getIntent().getExtras().getLong(EXTRA_ID, INVALID_ID);
+        }
+
+
+        product.setId(id);
 
 
         onStart();
@@ -162,79 +173,44 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     public void makePhotoButtonPressed(View view) {
-
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-
         if (intent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
-            photoFile = createImageFile();
-
-
-
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoString);
-
-
             startActivityForResult(intent, PICK_IMAGE);
         }
-    }
-
-
-
-
-    private File createImageFile() {
-
-        String randomName = UUID.randomUUID().toString();
-
-        File storageDir = new File(getExternalFilesDir(null), "wydatex_photos");
-        if (!storageDir.exists()) {
-            storageDir.mkdirs();
-        }
-
-        File image = null;
-        image = new File(storageDir, randomName);
-
-        return image;
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+            fileUri=data.getData();
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data.getData() != null) {
+
+            try {
+                bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             imageView=findViewById(R.id.photo);
 
-            fileUri=data.getData();
+            Glide.with(this).asBitmap().load(fileUri).centerCrop().into(imageView);
 
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            List<ResolveInfo> resolvedIntentActivities = this.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-            for (ResolveInfo resolvedIntentInfo : resolvedIntentActivities) {
-                String packageName = resolvedIntentInfo.activityInfo.packageName;
-
-            }
-
-
-            photoString=fileUri.toString();
-
-
-
-
-
-            Glide.with(this).asBitmap().load(photoString).centerCrop().into(imageView);
-
-
-
-
+            File photoFile = null;
+            photoFile= saveToInternalStorage(bitmap);
+            fileUri=Uri.fromFile(photoFile);
 
         }
     }
 
 
-    private String saveToInternalStorage(Bitmap bitmapImage) {
+    private File saveToInternalStorage(Bitmap bitmapImage) {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        String randomName = UUID.randomUUID().toString();
+
         // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File directory = cw.getDir(randomName, Context.MODE_PRIVATE);
         // Create imageDir
         File mypath = new File(directory, "profile.jpg");
 
@@ -247,13 +223,13 @@ public class AddProductActivity extends AppCompatActivity {
             e.printStackTrace();
         } finally {
             try {
+                assert fos != null;
                 fos.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        photoString = directory.getAbsolutePath();
-        return directory.getAbsolutePath();
+        return mypath;
     }
 
 }

@@ -2,16 +2,24 @@ package com.example.girlsshopping.products;
 
 import android.net.Uri;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+@Entity
 public class Product {
+
+    @PrimaryKey(autoGenerate = true)
+    private long id;
 
     private String name;
     private String description;
-    private ProductCategory category;
     private String  price;
-    private long id;
     private String photoString;
     private String size;
     private String brand;
+@TypeConverters(ProductCategoryConverter.class)
+    private ProductCategory category;
 
     public String getSize() {
         return size;
@@ -39,7 +47,7 @@ public class Product {
 
     private String condition;
 
-
+@SuppressWarnings("unused")
     public Product(String name, String description, ProductCategory category, String price, String photoString, String size, String brand, String condition) {
         this.name = name;
         this.description = description;

@@ -16,13 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
+import com.example.girlsshopping.ui.home.HomeFragment;
 
 import java.util.List;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.RecyclerViewHolder> {
 
     private List<Product> products;
+    CheckBox shareCheckBox;
 
     public static final int FACEBOOK_ADD_STICKER_TO_STORY_REQUEST = 10;
     public static final String FACEBOOK_SHARE_STICKER_INTENT = "com.facebook.share.ADD_STICKER_TO_STORY";
@@ -55,25 +58,8 @@ this.products=productList;
 
 
 
-        CheckBox shareCheckBox = v.findViewById(R.id.shareButton);
-        shareCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    Context context = view.getContext();
-                // setup for new implicit intent
+        shareCheckBox = v.findViewById(R.id.shareButton);
 
-                Intent intent=new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_EMAIL, "a.szmidt95@gmail.com");
-                intent.setType("text/plain");
-                String uriStr="www.pudelek.pl";
-                intent.setPackage("com.facebook.katana");
-                intent.putExtra(Intent.EXTRA_TEXT, uriStr);
-                context.startActivity(intent);
-
-
-
-            }
-        });
 
 
 
@@ -149,9 +135,18 @@ this.products=productList;
 
 
 
+        shareCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+        ProductsDataBase.getDataBase(view.getContext()).getProductDao().delete(product);
+                Toast.makeText(view.getContext(), "Produkt został pomyślnie usunięty", Toast.LENGTH_SHORT).show();
 
-
+                Context context = view.getContext();
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -167,8 +162,6 @@ this.products=productList;
             viewImage = (ImageView) itemView.findViewById(R.id.productsImageView);
             textViewNameProd = (TextView) itemView.findViewById(R.id.nameTeview);
             productsPrice=itemView.findViewById(R.id.price);
-
-
 
             itemView.setOnClickListener(this);
         }

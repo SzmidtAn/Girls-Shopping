@@ -109,13 +109,9 @@ public class ProductDetailFragment extends Fragment {
 
         if(getArguments() != null) {
             int animalId = getArguments().getInt(PRODUCTS_ID);
-            showAnimal(ProductRepository.getProductList().get(animalId));
+            showAnimal(ProductsDataBase.getDataBase(getContext()).getProductDao().findAll().get(animalId));
         }
 
-
-        for (int i = 0; i <ProductRepository.getProductList().size() ; i++) {
-            System.out.println(ProductRepository.getProductList().get(i).getPhotoString().toString());
-        }
 
 
         return view;
@@ -150,7 +146,7 @@ public class ProductDetailFragment extends Fragment {
 
             Glide.with(getActivity().getApplicationContext())
                 .asBitmap()
-                .load(R.drawable.backpack)
+                .load(product.getPhotoString())
                     .centerCrop()
                     .into(imageView);
         }else
