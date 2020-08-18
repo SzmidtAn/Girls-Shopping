@@ -123,17 +123,8 @@ public class ProductDetailFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     public void showAnimal(Product product) {
 
-        if (product.getName() != null) {
-            title.setText(product.getName());
-        }else
-            title.setText( "99,99 zł");
-
-        if (product.getDescription() != null) {
-            price.setText(product.getPrice() + " zł");
-        }else
-            price.setText( "99,99 zł");
-
-
+        title.setText(product.getName());
+        price.setText(product.getPrice() + " zł");
         category.setText("Kategoria: " + product.getCategory() );
         size.setText("Rozmiar: " + product.getSize() );
         brand.setText("Marka: " + product.getBrand() );
@@ -147,7 +138,7 @@ public class ProductDetailFragment extends Fragment {
             Glide.with(getActivity().getApplicationContext())
                 .asBitmap()
                 .load(product.getPhotoString())
-                    .centerCrop()
+                    .centerInside()
                     .into(imageView);
         }else
             Glide.with(this)
@@ -157,10 +148,7 @@ public class ProductDetailFragment extends Fragment {
 
 
 
-        if (product.getPrice() != null) {
-            description.setText(product.getDescription() + " zł");
-        }else
-            description.setText( "99,99 zł");
+            description.setText(product.getDescription());
 
         button.setText("Kup teraz");
     }

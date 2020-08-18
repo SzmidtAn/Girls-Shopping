@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -35,6 +37,7 @@ import java.util.UUID;
 
 import static android.content.pm.PackageInstaller.SessionInfo.INVALID_ID;
 import static android.nfc.NfcAdapter.EXTRA_ID;
+import static android.provider.MediaStore.Images.Media.getBitmap;
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -49,7 +52,7 @@ public class AddProductActivity extends AppCompatActivity {
     private File storageDir;
     public static final int PICK_IMAGE = 1;
     private static final int REQUEST_TAKE_PHOTO = 999;
-
+    Bitmap bmRotated;
 
     int i;
     ImageView imageView;
@@ -130,7 +133,17 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
 
+        Button rotationButton = findViewById(R.id.rotationButton);
+
+        rotationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rotationImage();
+            }
+        });
+
     }
+
 
     private void addNewExpense() {
         EditText nameEditText = findViewById(R.id.expense_name);
@@ -183,27 +196,101 @@ public class AddProductActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            fileUri=data.getData();
+        assert data != null;
+        fileUri=data.getData();
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data.getData() != null) {
 
             try {
-                bitmap= MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+
+                bitmap= getBitmap(getContentResolver(), fileUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            File photoFile = null;
+            photoFile= saveToInternalStorage(bitmap);
+
+                fileUri=Uri.fromFile(photoFile);
 
             imageView=findViewById(R.id.photo);
 
-            Glide.with(this).asBitmap().load(fileUri).centerCrop().into(imageView);
+                saveToInternalStorage(bitmap);
 
-            File photoFile = null;
-            photoFile= saveToInternalStorage(bitmap);
-            fileUri=Uri.fromFile(photoFile);
-
+            Glide.with(this).asBitmap().load(bitmap)
+                    .into(imageView);
         }
     }
 
+
+    private void rotationImage() {
+
+        if (bitmap!= null) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            Glide.with(this).asBitmap().load(bitmap)
+                    .into(imageView);
+
+           fileUri= Uri.fromFile( saveToInternalStorage(bitmap));
+
+        }
+
+    }
+
+
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    private static int exifToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
+        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
+        return 0;
+    }
 
     private File saveToInternalStorage(Bitmap bitmapImage) {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
@@ -218,7 +305,10 @@ public class AddProductActivity extends AppCompatActivity {
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            Matrix matrix=new Matrix();
+            matrix.postRotate(90);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

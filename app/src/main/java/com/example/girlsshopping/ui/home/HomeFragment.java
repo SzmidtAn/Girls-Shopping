@@ -1,6 +1,7 @@
 package com.example.girlsshopping.ui.home;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,12 @@ import com.example.girlsshopping.products.Product;
 import com.example.girlsshopping.products.ProductRecyclerViewAdapter;
 import com.example.girlsshopping.products.ProductsDataBase;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static java.util.Comparator.naturalOrder;
+import static java.util.Comparator.reverseOrder;
 
 public class HomeFragment extends Fragment{
 
@@ -38,6 +44,8 @@ public class HomeFragment extends Fragment{
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         List<Product> expenses = ProductsDataBase.getDataBase(view.getContext()).getProductDao().findAll();
+
+
 
         productRecyclerViewAdapter = new ProductRecyclerViewAdapter(getActivity(), expenses);
         recyclerView.setAdapter(productRecyclerViewAdapter);
