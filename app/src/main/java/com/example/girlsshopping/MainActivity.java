@@ -17,7 +17,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.girlsshopping.products.AddProductActivity;
 import com.example.girlsshopping.products.ProductDetailActivity;
 import com.example.girlsshopping.products.ProductDetailFragment;
-import com.example.girlsshopping.products.ProductRecyclerViewAdapter;
 import com.example.girlsshopping.ui.home.HomeFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -31,22 +30,16 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments_product_list);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               Intent intent=new Intent(getApplicationContext(), AddProductActivity.class);
-               startActivity(intent);
-            }
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+
+        fab.setOnClickListener(view -> {
+            Intent intent=new Intent(getApplicationContext(), AddProductActivity.class);
+            startActivity(intent);
         });
 
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -55,15 +48,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
-
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
     }
 
@@ -97,9 +81,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
         bundle.putInt(ProductDetailFragment.PRODUCTS_ID, id);
 
         Intent intent = new Intent(this, ProductDetailActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-
-
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
+
+}
