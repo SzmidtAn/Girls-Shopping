@@ -46,6 +46,9 @@ public class HomeFragment extends Fragment{
         return view;
     }
 
+
+
+
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(@NonNull Activity activity) {
