@@ -4,12 +4,8 @@ package com.example.girlsshopping.products;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -25,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.example.girlsshopping.R;
 
 import java.io.File;
@@ -41,24 +36,11 @@ import static android.provider.MediaStore.Images.Media.getBitmap;
 
 public class AddProductActivity extends AppCompatActivity {
 
-    private int PICK_IMAGE_REQUEST = 1;
     Bitmap bitmap;
-    String photoString;
-    ViewTarget<ImageView, Bitmap> ph;
     Product product;
-    int photo;
-    private static final int CAMERA_REQUEST_CODE = 1234;
     private Uri fileUri;
-    private File storageDir;
     public static final int PICK_IMAGE = 1;
-    private static final int REQUEST_TAKE_PHOTO = 999;
-    Bitmap bmRotated;
-
-    int i;
     ImageView imageView;
-    Button button;
-
-    Drawable drawable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,25 +143,17 @@ public class AddProductActivity extends AppCompatActivity {
         String size = sizeSpinner.getSelectedItem().toString();
         String brand = brandSpinner.getSelectedItem().toString();
         String condition = conditionSpinner.getSelectedItem().toString();
-
-
         ProductCategory category = (ProductCategory) categorySpinner.getSelectedItem();
 
         product = new Product( title,  description,  category, price, fileUri.toString(), size, brand, condition);
-
         ProductsDataBase.getDataBase(this).getProductDao().insert(product);
-
 
         long id = INVALID_ID;
         if (getIntent().getExtras() != null) {
             id = getIntent().getExtras().getLong(EXTRA_ID, INVALID_ID);
         }
-
-
         product.setId(id);
 
-
-        onStart();
         Toast.makeText(getApplicationContext(), "Artykuł został dodany poprawnie", Toast.LENGTH_SHORT).show();
 
         finish();
@@ -199,28 +173,22 @@ public class AddProductActivity extends AppCompatActivity {
         assert data != null;
         fileUri=data.getData();
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data.getData() != null) {
-
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null) {
             try {
-
                 bitmap= getBitmap(getContentResolver(), fileUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             File photoFile = null;
             photoFile= saveToInternalStorage(bitmap);
-
-                fileUri=Uri.fromFile(photoFile);
-
+            fileUri=Uri.fromFile(photoFile);
             imageView=findViewById(R.id.photo);
-
-                saveToInternalStorage(bitmap);
 
             Glide.with(this).asBitmap().load(bitmap)
                     .into(imageView);
         }
     }
-
 
     private void rotationImage() {
 
@@ -233,63 +201,7 @@ public class AddProductActivity extends AppCompatActivity {
                     .into(imageView);
 
            fileUri= Uri.fromFile( saveToInternalStorage(bitmap));
-
         }
-
-    }
-
-
-
-    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
-
-        Matrix matrix = new Matrix();
-        switch (orientation) {
-            case ExifInterface.ORIENTATION_NORMAL:
-                return bitmap;
-            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-                matrix.setScale(-1, 1);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_180:
-                matrix.setRotate(180);
-                break;
-            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-                matrix.setRotate(180);
-                matrix.postScale(-1, 1);
-                break;
-            case ExifInterface.ORIENTATION_TRANSPOSE:
-                matrix.setRotate(90);
-                matrix.postScale(-1, 1);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_90:
-                matrix.setRotate(90);
-                break;
-            case ExifInterface.ORIENTATION_TRANSVERSE:
-                matrix.setRotate(-90);
-                matrix.postScale(-1, 1);
-                break;
-            case ExifInterface.ORIENTATION_ROTATE_270:
-                matrix.setRotate(-90);
-                break;
-            default:
-                return bitmap;
-        }
-        try {
-            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            bitmap.recycle();
-            return bmRotated;
-        }
-        catch (OutOfMemoryError e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-    private static int exifToDegrees(int exifOrientation) {
-        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) { return 90; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {  return 180; }
-        else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {  return 270; }
-        return 0;
     }
 
     private File saveToInternalStorage(Bitmap bitmapImage) {

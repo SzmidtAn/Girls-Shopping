@@ -1,6 +1,5 @@
 package com.example.girlsshopping.products;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
-import com.example.girlsshopping.ui.home.HomeFragment;
-
 import java.util.List;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.RecyclerViewHolder> {
@@ -27,20 +24,12 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     private List<Product> products;
     CheckBox shareCheckBox;
 
-    public static final int FACEBOOK_ADD_STICKER_TO_STORY_REQUEST = 10;
-    public static final String FACEBOOK_SHARE_STICKER_INTENT = "com.facebook.share.ADD_STICKER_TO_STORY";
-
-    public ProductRecyclerViewAdapter(Context context, List<Product> animals) {
-
+    public ProductRecyclerViewAdapter(List<Product> animals) {
         this.products = animals;
     }
 
     public void setExpenses(List<Product> products) {
         this.products = products;
-    }
-
-    public ProductRecyclerViewAdapter(List<Product> productList) {
-this.products=productList;
     }
 
     @Override
@@ -54,49 +43,31 @@ this.products=productList;
 
         final View v =  LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.products_list, parent, false);
-        RecyclerViewHolder viewHolder = new RecyclerViewHolder(v);
-
-
 
         shareCheckBox = v.findViewById(R.id.shareButton);
-
-
-
-
         CheckBox messageCheckBox = v.findViewById(R.id.messageButton);
-        messageCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent=new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_EMAIL, "a.szmidt95@gmail.com");
-                intent.setType("message/rfc822");
-                Intent chooser=Intent.createChooser(intent, "Wyślij e-maila");
-                context.startActivity(chooser);
+        CheckBox checkBox=v.findViewById(R.id.likeCkeckBox);
 
-                Toast.makeText(parent.getContext(), "Wyślij wiadomość do sprzedawcy", Toast.LENGTH_SHORT).show();
-            }
+        messageCheckBox.setOnClickListener(view -> {
+            Context context = view.getContext();
+            Intent intent=new Intent(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_EMAIL, "a.szmidt95@gmail.com");
+            intent.setType("message/rfc822");
+            Intent chooser=Intent.createChooser(intent, "Wyślij e-maila");
+            context.startActivity(chooser);
+
+            Toast.makeText(parent.getContext(), "Wyślij wiadomość do sprzedawcy", Toast.LENGTH_SHORT).show();
         });
 
-        final CheckBox checkBox=v.findViewById(R.id.likeCkeckBox);
 
-        checkBox.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        //is chkIos checked?
-        if (((CheckBox) v).isChecked()) {
-            Toast.makeText(parent.getContext(), "Jak miło, że podoba Ci się nasz produkt :)", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(parent.getContext(), "No trudno :(", Toast.LENGTH_SHORT).show();
-
-        }
-
-    }
-
-
-
-
-});
+        checkBox.setOnClickListener(v1 -> {
+            //is chkIos checked?
+            if (((CheckBox) v1).isChecked()) {
+                Toast.makeText(parent.getContext(), "Jak miło, że podoba Ci się nasz produkt :)", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(parent.getContext(), "No trudno :(", Toast.LENGTH_SHORT).show();
+            }
+        });
         return new RecyclerViewHolder(v);
     }
 
@@ -106,34 +77,16 @@ this.products=productList;
 
         if (product !=null){
 
-            if (product.getName() != null) {
-
-                holder.textViewNameProd.setText(product.getName());
-            }else
-                holder.textViewNameProd.setText( "99,99 zł");
-
-        if (product.getPrice() != null) {
+            holder.textViewNameProd.setText(product.getName());
             holder.productsPrice.setText(product.getPrice() + " zł");
-        }else
-            holder.productsPrice.setText( "99,99 zł");
 
-
-            if (product.getPhotoString() != null) {
-                Glide.with(holder.viewImage.getContext())
+            Glide.with(holder.viewImage.getContext())
                         .asBitmap()
                         .load(product.getPhotoString())
                         .centerCrop()
                         .into(holder.viewImage);
-            }else
-                Glide.with(holder.viewImage.getContext())
-                        .asBitmap()
-                        .load(product.getPhotoString())
-                        .into(holder.viewImage);
-
 
         }
-
-
 
         shareCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,7 +102,6 @@ this.products=productList;
         });
 
     }
-
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -172,7 +124,6 @@ this.products=productList;
             return super.toString() + " '" + textViewNameProd.getText();
         }
 
-
         @Override
         public void onClick(View v) {
             Context context = v.getContext();
@@ -185,10 +136,7 @@ this.products=productList;
             context.startActivity(intent);
         }
 
-
     }
-
-
 
     @Override
     public int getItemCount() {

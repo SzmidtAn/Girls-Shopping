@@ -1,7 +1,5 @@
 package com.example.girlsshopping.products;
 
-import android.net.Uri;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -18,6 +16,7 @@ public class Product {
     private String photoString;
     private String size;
     private String brand;
+
 @TypeConverters(ProductCategoryConverter.class)
     private ProductCategory category;
 
@@ -25,24 +24,12 @@ public class Product {
         return size;
     }
 
-    public void setSize(String size) {
-        this.size = size;
-    }
-
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getCondition() {
         return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
     }
 
     private String condition;
@@ -71,24 +58,12 @@ public class Product {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public ProductCategory getCategory() {
         return category;
     }
 
-    public void setCategory(ProductCategory category) {
-        this.category = category;
-    }
-
     public String getPrice() {
         return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
     }
 
     public long getId() {
@@ -101,9 +76,5 @@ public class Product {
 
     public String getPhotoString() {
         return photoString;
-    }
-
-    public void setPhotoString(String photoString) {
-        this.photoString = photoString;
     }
 }

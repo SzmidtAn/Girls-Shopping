@@ -1,10 +1,6 @@
 package com.example.girlsshopping.products;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,25 +8,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.girlsshopping.R;
 import com.example.girlsshopping.dialog.DialogMail;
 import com.example.girlsshopping.dialog.ShopDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.File;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class ProductDetailFragment extends Fragment {
 
@@ -40,13 +27,10 @@ public class ProductDetailFragment extends Fragment {
     private ImageView imageView;
     private TextView description;
     private Button button;
-    private String photoString;
     private TextView category;
     private TextView size;
     private TextView brand;
     private TextView condition;
-
-    private Uri uri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,11 +44,9 @@ public class ProductDetailFragment extends Fragment {
         size=view.findViewById(R.id.size);
         brand=view.findViewById(R.id.brand);
         condition=view.findViewById(R.id.condition);
-
-
-
-
+        FloatingActionButton fabMail = view.findViewById(R.id.fabMail);
         CheckBox checkBox=view.findViewById(R.id.likeCkeckBox);
+
 
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,18 +56,10 @@ public class ProductDetailFragment extends Fragment {
                     Toast.makeText(view.getContext(), "Jak miło, że podoba Ci się nasz produkt :)", Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(view.getContext(), "No trudno :(", Toast.LENGTH_LONG).show();
-
                 }
-
             }
-
-
-
-
         });
 
-
-        FloatingActionButton fabMail = view.findViewById(R.id.fabMail);
         fabMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,21 +78,13 @@ public class ProductDetailFragment extends Fragment {
             }
         });
 
-
-
-
         if(getArguments() != null) {
             int animalId = getArguments().getInt(PRODUCTS_ID);
             showAnimal(ProductsDataBase.getDataBase(getContext()).getProductDao().findAll().get(animalId));
         }
 
-
-
         return view;
     }
-
-
-
 
     @SuppressLint("SetTextI18n")
     public void showAnimal(Product product) {
@@ -129,31 +95,15 @@ public class ProductDetailFragment extends Fragment {
         size.setText("Rozmiar: " + product.getSize() );
         brand.setText("Marka: " + product.getBrand() );
         condition.setText("Stan: " + product.getCondition());
+        description.setText(product.getDescription());
 
-
-        if (product.getPhotoString() != null){
-
-
-
-            Glide.with(getActivity().getApplicationContext())
+            Glide.with(this)
                 .asBitmap()
                 .load(product.getPhotoString())
                     .centerInside()
                     .into(imageView);
-        }else
-            Glide.with(this)
-                .asBitmap()
-                .load(R.drawable.backpack)
-                .into(imageView);
-
-
-
-            description.setText(product.getDescription());
 
         button.setText("Kup teraz");
     }
-
-
-
 
 }
