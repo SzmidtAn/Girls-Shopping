@@ -16,8 +16,21 @@ public class Product {
     private String photoString;
     private String size;
     private String brand;
+    private boolean favourite;
 
-@TypeConverters(ProductCategoryConverter.class)
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    @TypeConverters(ProductCategoryConverter.class)
     private ProductCategory category;
 
     public String getSize() {

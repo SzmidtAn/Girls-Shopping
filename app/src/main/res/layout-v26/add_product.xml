@@ -22,7 +22,8 @@
         android:src="@mipmap/plus_foto_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/plus_foto_foreground" />
 
 
 
@@ -158,7 +159,7 @@
         android:id="@+id/rotationButton"
         android:layout_width="54dp"
         android:layout_height="34dp"
-        android:background="@android:drawable/ic_menu_rotate"
+        android:background="@mipmap/right_image_foreground"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/photo" />
 

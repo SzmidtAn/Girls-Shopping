@@ -20,6 +20,10 @@ public interface ProductDao {
     @Query("SELECT * FROM product WHERE id=:id")
     Product findById(long id);
 
+
+    @Query("SELECT * FROM product WHERE favourite= 'true'")
+    List<Product> findFavourites();
+
     @Update
     void update(Product product);
 

@@ -1,4 +1,4 @@
-package com.example.girlsshopping;
+package com.example.girlsshopping.ui.searching;
 
 import androidx.fragment.app.Fragment;
 

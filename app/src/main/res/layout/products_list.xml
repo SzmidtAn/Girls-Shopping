@@ -28,29 +28,34 @@
         android:layout_height="40dp"
         app:layout_constraintTop_toBottomOf="@id/productsImageView">
 
-        <CheckBox
+        <ImageButton
             android:id="@+id/likeCkeckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:button="@mipmap/heart_foreground"
+            android:layout_width="67dp"
+            android:layout_height="45dp"
+            android:background="@color/cardview_light_background"
+            android:src="@mipmap/heart_foreground"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <CheckBox
+        <ImageButton
             android:id="@+id/messageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="61dp"
+            android:layout_height="46dp"
 
+            android:background="@color/cardview_light_background"
             android:button="@mipmap/message_foreground"
+            android:src="@mipmap/message_foreground"
             app:layout_constraintLeft_toRightOf="@id/likeCkeckBox"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <CheckBox
+        <ImageButton
             android:id="@+id/shareButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@color/design_default_color_background"
             android:button="@android:drawable/ic_menu_delete"
+            android:src="@android:drawable/ic_menu_delete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

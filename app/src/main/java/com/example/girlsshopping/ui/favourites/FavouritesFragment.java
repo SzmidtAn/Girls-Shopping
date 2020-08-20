@@ -1,4 +1,4 @@
-package com.example.girlsshopping.ui.home;
+package com.example.girlsshopping.ui.favourites;
 
 import android.app.Activity;
 import android.os.Build;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,27 +18,26 @@ import com.example.girlsshopping.R;
 import com.example.girlsshopping.products.Product;
 import com.example.girlsshopping.products.ProductRecyclerViewAdapter;
 import com.example.girlsshopping.products.ProductsDataBase;
+import com.example.girlsshopping.ui.home.HomeFragment;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import static java.util.Comparator.naturalOrder;
-import static java.util.Comparator.reverseOrder;
-
-public class HomeFragment extends Fragment{
+public class FavouritesFragment extends Fragment {
 
     private HomeFragment.OnProductClickedListener onProductClickedListener;
 
     private RecyclerView recyclerView;
 
-    private ProductRecyclerViewAdapter productRecyclerViewAdapter;
+    private FavouritesRecyclerViewAdapter productRecyclerViewAdapter;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Nullable
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -45,9 +47,21 @@ public class HomeFragment extends Fragment{
 
         List<Product> expenses = ProductsDataBase.getDataBase(view.getContext()).getProductDao().findAll();
 
+        List<Product> favourites=new ArrayList<>();
+
+        for (int i = 0; i <expenses.size() ; i++) {
+            if (expenses.get(i).isFavourite()) {
+                favourites.add(expenses.get(i));
+            }else {
+                favourites.remove(expenses.get(i));
+            }
+        }
+
+        System.out.println(favourites);
 
 
-        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(expenses);
+
+        productRecyclerViewAdapter = new FavouritesRecyclerViewAdapter(favourites);
         recyclerView.setAdapter(productRecyclerViewAdapter);
 
 
@@ -56,14 +70,16 @@ public class HomeFragment extends Fragment{
 
 
         return view;
-    }
 
+
+
+    }
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            onProductClickedListener = (OnProductClickedListener) activity;
+            onProductClickedListener = (HomeFragment.OnProductClickedListener) activity;
 
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnAnimalClickedListener");
@@ -76,7 +92,7 @@ public class HomeFragment extends Fragment{
         onProductClickedListener = null;
     }
 
-    public OnProductClickedListener getOnProductClickedListener() {
+    public HomeFragment.OnProductClickedListener getOnProductClickedListener() {
         return onProductClickedListener;
     }
 
@@ -84,7 +100,6 @@ public class HomeFragment extends Fragment{
     public void onStart() {
         super.onStart();
 
-        refreshAdapterData();
 
 
 

@@ -4,25 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.girlsshopping.products.AddProductActivity;
 import com.example.girlsshopping.products.ProductDetailActivity;
 import com.example.girlsshopping.products.ProductDetailFragment;
+import com.example.girlsshopping.ui.favourites.FavouritesFragment;
 import com.example.girlsshopping.ui.gallery.GalleryFragment;
 import com.example.girlsshopping.ui.home.HomeFragment;
+import com.example.girlsshopping.ui.message.MessageFragment;
+import com.example.girlsshopping.ui.searching.SearchingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class MainActivity extends AppCompatActivity implements HomeFragment.OnProductClickedListener {
@@ -36,8 +37,17 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        FloatingActionButton floatingActionButton=findViewById(R.id.addFloatingActionBar);
 
         setSupportActionBar(toolbar);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddProductActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
@@ -66,10 +76,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
                             case R.id.action_searching:
                                 SearchingFragment searchingFragment=new SearchingFragment();
                                 openFragment(searchingFragment);
-                            return true;
-                            case R.id.action_add:
-                                intent = new Intent(getApplicationContext(), AddProductActivity.class);
-                                startActivity(intent);
                             return true;
                             case R.id.action_favoriter:
                                 FavouritesFragment favouritesFragment=new FavouritesFragment();

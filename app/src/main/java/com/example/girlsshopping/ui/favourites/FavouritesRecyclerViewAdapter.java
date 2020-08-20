@@ -1,4 +1,4 @@
-package com.example.girlsshopping.products;
+package com.example.girlsshopping.ui.favourites;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,19 +21,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
-import com.example.girlsshopping.ui.home.HomeFragment;
+import com.example.girlsshopping.products.Product;
+import com.example.girlsshopping.products.ProductDetailActivity;
+import com.example.girlsshopping.products.ProductDetailFragment;
+import com.example.girlsshopping.products.ProductsDataBase;
 
 import java.util.List;
 
-public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.RecyclerViewHolder> {
+public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<com.example.girlsshopping.products.ProductRecyclerViewAdapter.RecyclerViewHolder> {
 
     private List<Product> products;
-    private List<Product> favourites;
     ImageButton shareCheckBox;
     ImageButton likeCheckBox;
     ImageButton messageCheckBox;
 
-    public ProductRecyclerViewAdapter(List<Product> animals) {
+    public FavouritesRecyclerViewAdapter(List<Product> animals) {
         this.products = animals;
     }
 
@@ -48,14 +50,14 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
     @NonNull
     @Override
-    public RecyclerViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
+    public com.example.girlsshopping.products.ProductRecyclerViewAdapter.RecyclerViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
 
         final View v =  LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.products_list, parent, false);
 
         shareCheckBox = v.findViewById(R.id.shareButton);
-       messageCheckBox = v.findViewById(R.id.messageButton);
-       likeCheckBox=v.findViewById(R.id.likeCkeckBox);
+        messageCheckBox = v.findViewById(R.id.messageButton);
+        likeCheckBox=v.findViewById(R.id.likeCkeckBox);
 
         messageCheckBox.setOnClickListener(view -> {
             Context context = view.getContext();
@@ -70,17 +72,21 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
 
 
-        return new RecyclerViewHolder(v);
+        return new com.example.girlsshopping.products.ProductRecyclerViewAdapter.RecyclerViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull com.example.girlsshopping.products.ProductRecyclerViewAdapter.RecyclerViewHolder holder, int position) {
         final Product product = products.get(position);
 
         if (product !=null){
 
 
-            holder.textViewNameProd.setText(product.getName());
+            Boolean str=product.isFavourite();
+
+            String s=str.toString();
+
+            holder.textViewNameProd.setText(s);
             holder.productsPrice.setText(product.getPrice() + " zł");
 
             Glide.with(holder.viewImage.getContext())
@@ -91,20 +97,23 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
 
 
+            likeCheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    updateProductLike(product);
+                    Toast.makeText(view.getContext(), "Dodano/usunięto z ulubionych", Toast.LENGTH_SHORT).show();
 
 
-     likeCheckBox.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View view) {
-           updateProductLike(product);
+                    ProductsDataBase.getDataBase(view.getContext()).getProductDao().update(product);
 
-             ProductsDataBase.getDataBase(view.getContext()).getProductDao().update(product);
-             Toast.makeText(view.getContext(), "Dodano/usunięto z ulubionych", Toast.LENGTH_SHORT).show();
+                    notifyItemChanged(position);
+                }
+            });
 
-             notifyItemChanged(position);
 
-         }
-     });
+
+
 
 
 
@@ -121,16 +130,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                 }
             });
 
-
         }
     }
 
     private void updateProductLike(Product product) {
 
         if (product.isFavourite()) {
+
             product.setFavourite(false);
-            likeCheckBox.animate();
-        } else if (!product.isFavourite()){
+        } else {
+
             product.setFavourite(true);
         }
     }
