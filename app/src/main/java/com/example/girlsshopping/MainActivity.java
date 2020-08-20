@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-        GalleryFragment galleryFragment=new GalleryFragment();
 
     }
 

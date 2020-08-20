@@ -198,6 +198,7 @@ public class AddProductActivity extends AppCompatActivity {
 
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             Glide.with(this).asBitmap().load(bitmap)
+                    .centerCrop()
                     .into(imageView);
 
            fileUri= Uri.fromFile( saveToInternalStorage(bitmap));
@@ -219,6 +220,7 @@ public class AddProductActivity extends AppCompatActivity {
             // Use the compress method on the BitMap object to write image to the OutputStream
             Matrix matrix=new Matrix();
             matrix.postRotate(90);
+
             bitmapImage.compress(Bitmap.CompressFormat.JPEG, 90, fos);
 
         } catch (Exception e) {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ProductDetailFragment extends Fragment {
+    BottomNavigationView bottomNavigation;
 
     public static final String PRODUCTS_ID = "extra.product_id";
     private TextView title;
@@ -34,6 +36,7 @@ public class ProductDetailFragment extends Fragment {
     private ImageView imageView;
     private TextView description;
     private Button button;
+    private ImageButton checkBox;
     private TextView category;
     private TextView size;
     private TextView brand;
@@ -52,24 +55,11 @@ public class ProductDetailFragment extends Fragment {
         brand=view.findViewById(R.id.brand);
         condition=view.findViewById(R.id.condition);
         FloatingActionButton fabMail = view.findViewById(R.id.fabMail);
-        CheckBox checkBox=view.findViewById(R.id.likeCkeckBox);
+        checkBox=view.findViewById(R.id.likeCkeckBox);
 
 
 
 
-
-
-        checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //is chkIos checked?
-                if (((CheckBox) v).isChecked()) {
-                    Toast.makeText(view.getContext(), "Jak miło, że podoba Ci się nasz produkt :)", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(view.getContext(), "No trudno :(", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
         fabMail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +87,19 @@ public class ProductDetailFragment extends Fragment {
         return view;
     }
 
+
+
+
+
+    private void updateProductLike(Product product) {
+
+        if (product.isFavourite()) {
+            product.setFavourite(false);
+        } else if (!product.isFavourite()){
+            product.setFavourite(true);
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     public void showAnimal(Product product) {
 
@@ -111,10 +114,28 @@ public class ProductDetailFragment extends Fragment {
             Glide.with(this)
                 .asBitmap()
                 .load(product.getPhotoString())
-                    .centerInside()
+                    .centerCrop()
                     .into(imageView);
 
         button.setText("Kup teraz");
+
+
+
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateProductLike(product);
+
+                ProductsDataBase.getDataBase(view.getContext()).getProductDao().update(product);
+                Toast.makeText(view.getContext(), "Dodano/usunięto z ulubionych", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+
+
     }
 
 }
