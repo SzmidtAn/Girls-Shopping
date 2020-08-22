@@ -79,6 +79,12 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
         if (product !=null){
 
+            if (product.isFavourite()) {
+                likeCheckBox.setImageResource(R.drawable.red_heartt_t_foreground);
+
+            } else if (!product.isFavourite()){
+                likeCheckBox.setImageResource(R.mipmap.heart_foreground);
+            }
 
             holder.textViewNameProd.setText(product.getName());
             holder.productsPrice.setText(product.getPrice() + " zł");
@@ -129,9 +135,11 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
         if (product.isFavourite()) {
             product.setFavourite(false);
-            likeCheckBox.animate();
+            likeCheckBox.setImageResource(R.mipmap.heart_foreground);
+
         } else if (!product.isFavourite()){
             product.setFavourite(true);
+            likeCheckBox.setImageResource(R.drawable.red_heartt_t_foreground);
         }
     }
 
@@ -174,4 +182,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     public int getItemCount() {
         return products.size();
     }
+
+    public void clear() {
+        products.clear();
+
+    }
+
+    public void addAll(List<Product> list) {
+        products.addAll(list);
+        notifyDataSetChanged();
+    }
+
+
 }

@@ -2,6 +2,7 @@ package com.example.girlsshopping;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.girlsshopping.products.AddProductActivity;
 import com.example.girlsshopping.products.ProductDetailActivity;
@@ -26,8 +28,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnProductClickedListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnProductClickedListener{
     private AppBarConfiguration mAppBarConfiguration;
+
 
     BottomNavigationView bottomNavigation;
 
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         FloatingActionButton floatingActionButton=findViewById(R.id.addFloatingActionBar);

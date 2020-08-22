@@ -61,6 +61,9 @@ public class ProductDetailFragment extends Fragment {
 
 
 
+
+
+
         fabMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,6 +84,7 @@ public class ProductDetailFragment extends Fragment {
 
         if(getArguments() != null) {
             int animalId = getArguments().getInt(PRODUCTS_ID);
+
             showAnimal(ProductsDataBase.getDataBase(getContext()).getProductDao().findAll().get(animalId));
         }
 
@@ -95,8 +99,12 @@ public class ProductDetailFragment extends Fragment {
 
         if (product.isFavourite()) {
             product.setFavourite(false);
+            checkBox.setImageResource(R.mipmap.heart_foreground);
+
         } else if (!product.isFavourite()){
             product.setFavourite(true);
+            checkBox.setImageResource(R.drawable.red_heartt_t_foreground);
+
         }
     }
 
@@ -120,22 +128,28 @@ public class ProductDetailFragment extends Fragment {
         button.setText("Kup teraz");
 
 
+        if (product.isFavourite()) {
+            checkBox.setImageResource(R.drawable.red_heartt_t_foreground);
 
+        } else if (!product.isFavourite()){
+            checkBox.setImageResource(R.mipmap.heart_foreground);
+        }
 
         checkBox.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
                 updateProductLike(product);
 
                 ProductsDataBase.getDataBase(view.getContext()).getProductDao().update(product);
                 Toast.makeText(view.getContext(), "Dodano/usunięto z ulubionych", Toast.LENGTH_SHORT).show();
-
-
             }
         });
 
 
 
     }
+
+
 
 }

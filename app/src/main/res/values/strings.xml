@@ -41,4 +41,5 @@
     <string name="cancel" />
     <string name="send_to" />
     <string name="my_image_desc" />
+    <string name="nie_masz_adnych_nowych_wiadomo_ci">Nie masz żadnych nowych wiadomości</string>
 </resources>
