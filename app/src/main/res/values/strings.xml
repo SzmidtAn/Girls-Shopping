@@ -42,4 +42,44 @@
     <string name="send_to" />
     <string name="my_image_desc" />
     <string name="nie_masz_adnych_nowych_wiadomo_ci">Nie masz żadnych nowych wiadomości</string>
+    <string name="lista_ycze">Lista życzeń</string>
+
+
+    <string name="facebook_app_id">316836496292713</string>
+    <string name="fb_login_protocol_scheme">fb316836496292713</string>
+    <string name="nazwa">Nazwa</string>
+    <string name="cena">Cena</string>
+    <string name="opisz_sw_j_przedmiot">Opisz swój przedmiot</string>
+    <string name="dodaj_przedmiot">Dodaj przedmiot</string>
+    <string name="wpisz_wiadomo_do_sprzedawcy">Wpisz wiadomość do sprzedawcy</string>
+    <string name="kup_teraz">Kup teraz</string>
+    <string name="kategoria">Kategoria:</string>
+    <string name="marka">Marka</string>
+    <string name="rozmiar">Rozmiar</string>
+    <string name="stan">Stan</string>
+    <string name="brak_wiadomo_ci_w_skrzynce">Brak wiadomości w skrzynce.</string>
+    <string name="tutaj_pojawi_si_wszystkie_rozmowy_na_temat_przedmiot_w_ofert_i_zrealizowanych_transakcji">Tutaj pojawią się wszystkie rozmowy na temat przedmiotów, ofert i zrealizowanych transakcji.</string>
+    <string name="funkcja_wyszukiwania_ju_wkr_tce">Funkcja wyszukiwania już wkrótce!</string>
+    <string name="android_version">Android Version</string>
+    <string name="_85_99_z">85,99 zł</string>
+    <string name="message">Wyślij wiadomość do sprzedawcy</string>
+    <string name="messageText">Czy przedmiot jest jesszcze dostęony?</string>
+    <string name="send">Wyślij</string>
+    <string name="message_correct">Wiadomość została pomyślnie wysłana</string>
+    <string name="congratulation">Gratulacje!</string>
+    <string name="dialog_message">Właśnie kupiłeś przedmiot \npoprzez Kup Teraz :)</string>
+    <string name="super_dialog">Super</string>
+    <string name="category">"Kategoria: "</string>
+    <string name="size">"Rozmiar: "</string>
+    <string name="brand">"Marka: "</string>
+    <string name="condition">"Stan: "</string>
+    <string name="currency">" zł"</string>
+    <string name="add_delete_from_favourites">Dodano/usunięto z ulubionych</string>
+    <string name="send_email">Wyślij e-maila</string>
+    <string name="send_message">Wyślij wiadomość do sprzedawcy</string>
+    <string name="delete_item">Produkt został pomyślnie usunięty</string>
+    <string name="empty_aviseringar">Nie masz żadnych nowych powiadomień</string>
+    <string name="object_ok">Artykuł został dodany poprawnie</string>
+
+
 </resources>

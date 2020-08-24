@@ -3,24 +3,18 @@ package com.example.girlsshopping.products;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
-import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
 import com.example.girlsshopping.dialog.DialogMail;
 import com.example.girlsshopping.dialog.ShopDialogFragment;
@@ -33,6 +27,7 @@ public class ProductDetailFragment extends Fragment {
     public static final String PRODUCTS_ID = "extra.product_id";
     private TextView title;
     private TextView price;
+    private TextView currency;
     private ImageView imageView;
     private TextView description;
     private Button button;
@@ -49,6 +44,7 @@ public class ProductDetailFragment extends Fragment {
         imageView = (ImageView) view.findViewById(R.id.imageDetailFragment);
         description = (TextView) view.findViewById(R.id.description);
         price=view.findViewById(R.id.priceDetail);
+        currency=view.findViewById(R.id.currencyDetail);
         button=view.findViewById(R.id.buttonShop);
         category=view.findViewById(R.id.category);
         size=view.findViewById(R.id.size);
@@ -108,15 +104,17 @@ public class ProductDetailFragment extends Fragment {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "ResourceType"})
     public void showAnimal(Product product) {
 
         title.setText(product.getName());
-        price.setText(product.getPrice() + " zł");
-        category.setText("Kategoria: " + product.getCategory() );
-        size.setText("Rozmiar: " + product.getSize() );
-        brand.setText("Marka: " + product.getBrand() );
-        condition.setText("Stan: " + product.getCondition());
+        price.setText(product.getPrice() );
+        currency.setText(R.string.currency);
+
+        category.setText(getString(R.string.category) + product.getCategory() );
+        size.setText(getString(R.string.size) + product.getSize() );
+        brand.setText(getString(R.string.brand) + product.getBrand() );
+        condition.setText(getString(R.string.condition) + product.getCondition());
         description.setText(product.getDescription());
 
             Glide.with(this)
@@ -125,7 +123,7 @@ public class ProductDetailFragment extends Fragment {
                     .centerCrop()
                     .into(imageView);
 
-        button.setText("Kup teraz");
+        button.setText(R.string.kup_teraz);
 
 
         if (product.isFavourite()) {
@@ -142,7 +140,7 @@ public class ProductDetailFragment extends Fragment {
                 updateProductLike(product);
 
                 ProductsDataBase.getDataBase(view.getContext()).getProductDao().update(product);
-                Toast.makeText(view.getContext(), "Dodano/usunięto z ulubionych", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), R.string.add_delete_from_favourites, Toast.LENGTH_SHORT).show();
             }
         });
 

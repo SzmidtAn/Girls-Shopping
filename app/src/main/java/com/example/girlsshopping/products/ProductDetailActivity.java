@@ -71,9 +71,8 @@ public class ProductDetailActivity extends AppCompatActivity implements HomeFrag
 
     @Override
     public void onBackPressed() {
+
         finish();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
     }
 
 
@@ -117,7 +116,7 @@ public class ProductDetailActivity extends AppCompatActivity implements HomeFrag
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(getApplicationContext(), "Nie masz żadnych nowych powiadomień", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.message, Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 

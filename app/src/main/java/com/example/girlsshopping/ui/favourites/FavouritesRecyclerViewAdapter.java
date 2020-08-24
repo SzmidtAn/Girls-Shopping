@@ -15,14 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
 import com.example.girlsshopping.products.Product;
 import com.example.girlsshopping.products.ProductDetailActivity;
 import com.example.girlsshopping.products.ProductDetailFragment;
-import com.example.girlsshopping.products.ProductRecyclerViewAdapter;
 import com.example.girlsshopping.products.ProductsDataBase;
-import com.example.girlsshopping.ui.home.HomeFragment;
 
 import java.util.List;
 
@@ -65,7 +62,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
             Intent chooser=Intent.createChooser(intent, "Wyślij e-maila");
             context.startActivity(chooser);
 
-            Toast.makeText(parent.getContext(), "Wyślij wiadomość do sprzedawcy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(parent.getContext(), R.string.send_message, Toast.LENGTH_SHORT).show();
         });
 
 
@@ -89,7 +86,8 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
 
 
             holder.textViewNameProd.setText(product.getName());
-            holder.productsPrice.setText(product.getPrice() + " zł");
+            holder.productsPrice.setText(product.getPrice());
+            holder.currency.setText(R.string.currency);
 
             Glide.with(holder.viewImage.getContext())
                     .asBitmap()
@@ -104,7 +102,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
                 public void onClick(View view) {
 
                     updateProductLike(product);
-                    Toast.makeText(view.getContext(), "Dodano/usunięto z ulubionych", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), R.string.add_delete_from_favourites, Toast.LENGTH_SHORT).show();
 
 
                     ProductsDataBase.getDataBase(view.getContext()).getProductDao().update(product);
@@ -119,18 +117,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
 
 
 
-            shareCheckBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    ProductsDataBase.getDataBase(view.getContext()).getProductDao().delete(product);
-                    Toast.makeText(view.getContext(), "Produkt został pomyślnie usunięty", Toast.LENGTH_SHORT).show();
-
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, MainActivity.class);
-                    context.startActivity(intent);
-                }
-            });
 
         }
     }
@@ -151,12 +138,16 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
         public ImageView viewImage;
         public TextView textViewNameProd;
         public TextView productsPrice;
+        public TextView currency;
+
 
         public FavouritesRecyclerViewHolder(View itemView) {
             super(itemView);
             viewImage = (ImageView) itemView.findViewById(R.id.productsImageView);
             textViewNameProd = (TextView) itemView.findViewById(R.id.nameTeview);
             productsPrice=itemView.findViewById(R.id.price);
+            currency=itemView.findViewById(R.id.currency);
+
 
             itemView.setOnClickListener(this);
         }

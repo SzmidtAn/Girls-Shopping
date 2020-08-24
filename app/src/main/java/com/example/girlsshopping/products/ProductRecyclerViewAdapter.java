@@ -1,17 +1,14 @@
 package com.example.girlsshopping.products;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
-import com.example.girlsshopping.ui.home.HomeFragment;
 
 import java.util.List;
 
@@ -62,10 +58,10 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
             Intent intent=new Intent(Intent.ACTION_SEND);
             intent.putExtra(Intent.EXTRA_EMAIL, "a.szmidt95@gmail.com");
             intent.setType("message/rfc822");
-            Intent chooser=Intent.createChooser(intent, "Wyślij e-maila");
+            Intent chooser=Intent.createChooser(intent, context.getString(R.string.send_email));
             context.startActivity(chooser);
 
-            Toast.makeText(parent.getContext(), "Wyślij wiadomość do sprzedawcy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(parent.getContext(), R.string.send_message, Toast.LENGTH_SHORT).show();
         });
 
 
@@ -73,6 +69,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         return new RecyclerViewHolder(v);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         final Product product = products.get(position);
@@ -86,8 +83,10 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                 likeCheckBox.setImageResource(R.mipmap.heart_foreground);
             }
 
+
             holder.textViewNameProd.setText(product.getName());
-            holder.productsPrice.setText(product.getPrice() + " zł");
+            holder.productsPrice.setText(product.getPrice());
+            holder.currency.setText(R.string.currency);
 
             Glide.with(holder.viewImage.getContext())
                     .asBitmap()
@@ -105,7 +104,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
            updateProductLike(product);
 
              ProductsDataBase.getDataBase(view.getContext()).getProductDao().update(product);
-             Toast.makeText(view.getContext(), "Dodano/usunięto z ulubionych", Toast.LENGTH_SHORT).show();
+             Toast.makeText(view.getContext(), R.string.add_delete_from_favourites, Toast.LENGTH_SHORT).show();
 
              notifyItemChanged(position);
 
@@ -119,7 +118,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
                 public void onClick(View view) {
 
                     ProductsDataBase.getDataBase(view.getContext()).getProductDao().delete(product);
-                    Toast.makeText(view.getContext(), "Produkt został pomyślnie usunięty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), R.string.delete_item, Toast.LENGTH_SHORT).show();
 
                     Context context = view.getContext();
                     Intent intent = new Intent(context, MainActivity.class);
@@ -148,12 +147,14 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         public ImageView viewImage;
         public TextView textViewNameProd;
         public TextView productsPrice;
+        public TextView currency;
 
         public RecyclerViewHolder (View itemView) {
             super(itemView);
             viewImage = (ImageView) itemView.findViewById(R.id.productsImageView);
             textViewNameProd = (TextView) itemView.findViewById(R.id.nameTeview);
             productsPrice=itemView.findViewById(R.id.price);
+            currency=itemView.findViewById(R.id.currency);
 
             itemView.setOnClickListener(this);
         }

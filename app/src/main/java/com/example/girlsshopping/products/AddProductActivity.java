@@ -89,6 +89,8 @@ public class AddProductActivity extends AppCompatActivity {
         brandSpinner.setAdapter(brandAdapter);
 
 
+
+
      // Spinner Drop down elements
         List<String> condition = new ArrayList<String>();
         condition.add("Nowe");
@@ -154,7 +156,7 @@ public class AddProductActivity extends AppCompatActivity {
         }
         product.setId(id);
 
-        Toast.makeText(getApplicationContext(), "Artykuł został dodany poprawnie", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.object_ok, Toast.LENGTH_SHORT).show();
 
         finish();
     }

@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.girlsshopping.data.FacebookLogin;
 import com.example.girlsshopping.products.AddProductActivity;
 import com.example.girlsshopping.products.ProductDetailActivity;
 import com.example.girlsshopping.products.ProductDetailFragment;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnPr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(getApplicationContext(), "Nie masz żadnych nowych powiadomień", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.empty_aviseringar, Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 

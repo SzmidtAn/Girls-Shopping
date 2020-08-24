@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView android:id="@+id/detailCardView"
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
-    android:layout_marginBottom="10dp"
     app:layout_constraintTop_toBottomOf="@id/imageDetailFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:focusable="true"
@@ -78,7 +76,7 @@
 
         android:clickable="false"
         android:paddingStart="25dp"
-        android:text="Android Version"
+        android:text="@string/android_version"
         android:textAlignment="textStart"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#000000"
@@ -91,17 +89,34 @@
     <TextView
         android:id="@+id/price"
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:clickable="false"
         android:paddingStart="25dp"
-        android:text="85,99 zł"
         android:textAlignment="textStart"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#000000"
         android:textSize="22sp"
         android:textStyle="bold"
         android:typeface="monospace"
+        app:layout_constraintTop_toBottomOf="@id/nameTeview"
+        app:layout_constraintRight_toLeftOf="@id/currency"
+/>
+
+    <TextView
+        android:id="@+id/currency"
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:text="@string/currency"
+        android:textAlignment="textStart"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        app:layout_constraintLeft_toRightOf="@id/price"
         app:layout_constraintTop_toBottomOf="@id/nameTeview" />
 
 

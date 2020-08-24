@@ -15,25 +15,34 @@ import com.example.girlsshopping.R;
 
 public class DialogMail extends DialogFragment {
 
+    int setMessage;
+    int mesageText;
+
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+
+        setMessage=R.string.message;
+        mesageText=R.string.messageText;
+
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         builder.setIcon(R.mipmap.star_foreground);
-        builder.setTitle("Wyślij wiadomość do sprzedawcy");
-        builder.setMessage("Czy przedmiot jest jeszcze aktualny?");
+        builder.setTitle(setMessage);
+        builder.setMessage(mesageText);
         builder.setCancelable(false);
 
 
-        builder.setPositiveButton("Wyślij", new DialogInterface.OnClickListener()
+        builder.setPositiveButton(R.string.send, new DialogInterface.OnClickListener()
         {
             @Override
             public void onClick(DialogInterface dialog, int which)
             {
-                Toast.makeText(getContext(), "Wiadomość została pomyślnie wysłana", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.message_correct, Toast.LENGTH_SHORT).show();
             }
         });
 
-        builder.setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

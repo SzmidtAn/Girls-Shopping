@@ -19,11 +19,11 @@ public class ShopDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         builder.setIcon(R.mipmap.star_foreground);
-        builder.setTitle("Gratulacje!");
-        builder.setMessage("Właśnie kupiłeś przedmiot \npoprzez Kup Teraz :)");
+        builder.setTitle(R.string.congratulation);
+        builder.setMessage(R.string.dialog_message);
         builder.setCancelable(false);
 
-        builder.setNegativeButton("Super", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.super_dialog, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

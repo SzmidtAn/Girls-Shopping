@@ -124,7 +124,8 @@ public class HomeFragment extends Fragment implements  SwipeRefreshLayout.OnRefr
         List<Product> expenses = ProductsDataBase.getDataBase(getContext()).getProductDao().findAll();
         if (expenses!= null){
 
-            productRecyclerViewAdapter.setExpenses(expenses);
+            productRecyclerViewAdapter.clear();
+            productRecyclerViewAdapter.addAll(expenses);
             productRecyclerViewAdapter.notifyDataSetChanged();
         }
 
@@ -137,7 +138,8 @@ public class HomeFragment extends Fragment implements  SwipeRefreshLayout.OnRefr
     @Override
     public void onRefresh() {
 
-    refreshAdapterData();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
         swipeRefreshLayout.setRefreshing(false);
 
     }
