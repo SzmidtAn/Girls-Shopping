@@ -24,7 +24,6 @@ import java.util.List;
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.RecyclerViewHolder> {
 
     private List<Product> products;
-    private List<Product> favourites;
     ImageButton shareCheckBox;
     ImageButton likeCheckBox;
     ImageButton messageCheckBox;

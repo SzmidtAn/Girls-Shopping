@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
 
 import java.io.File;
@@ -33,6 +34,7 @@ import java.util.UUID;
 import static android.content.pm.PackageInstaller.SessionInfo.INVALID_ID;
 import static android.nfc.NfcAdapter.EXTRA_ID;
 import static android.provider.MediaStore.Images.Media.getBitmap;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -156,6 +158,9 @@ public class AddProductActivity extends AppCompatActivity {
         }
         product.setId(id);
 
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+
         Toast.makeText(getApplicationContext(), R.string.object_ok, Toast.LENGTH_SHORT).show();
 
         finish();
@@ -173,7 +178,14 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         assert data != null;
+
+        try {
         fileUri=data.getData();
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        };
+
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null) {
             try {
