@@ -125,6 +125,7 @@ public class ProductDetailFragment extends Fragment {
 
         button.setText(R.string.kup_teraz);
 
+        System.out.println(product.getId());
 
         if (product.isFavourite()) {
             checkBox.setImageResource(R.drawable.red_heartt_t_foreground);

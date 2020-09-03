@@ -2,6 +2,7 @@ package com.example.girlsshopping.ui.favourites;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -74,6 +76,8 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
     public void onBindViewHolder(@NonNull FavouritesRecyclerViewHolder holder, int position) {
         final Product product = favourites.get(position);
 
+
+
         if (product !=null){
 
 
@@ -94,6 +98,23 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
                     .load(product.getPhotoString())
                     .centerCrop()
                     .into(holder.viewImage);
+
+            holder.viewImage.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View view) {
+                    long index=product.getId();
+                    int ind=Math.toIntExact(index);
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, ProductDetailActivity.class);
+                    Bundle bundle = new Bundle();
+
+                    bundle.putInt(ProductDetailFragment.PRODUCTS_ID, ind-1);
+                    System.out.println(ind);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
 
 
 
@@ -160,16 +181,7 @@ public class FavouritesRecyclerViewAdapter extends RecyclerView.Adapter<Favourit
 
         @Override
         public void onClick(View v) {
-            Context context = v.getContext();
-            Intent intent = new Intent(context, ProductDetailActivity.class);
-            Bundle bundle = new Bundle();
 
-            ProductDetailFragment productDetailFragment=new ProductDetailFragment();
-
-            int i=getLayoutPosition();
-            bundle.putInt(ProductDetailFragment.PRODUCTS_ID, i);
-            intent.putExtras(bundle);
-            context.startActivity(intent);
         }
 
     }

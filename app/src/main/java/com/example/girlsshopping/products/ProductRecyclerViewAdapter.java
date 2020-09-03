@@ -172,6 +172,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
             int i=getLayoutPosition();
             bundle.putInt(ProductDetailFragment.PRODUCTS_ID, i);
+
             intent.putExtras(bundle);
             context.startActivity(intent);
         }
