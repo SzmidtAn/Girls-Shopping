@@ -22,7 +22,6 @@
         android:layout_height="388dp"
         android:contentDescription="TODO"
         android:foregroundGravity="top"
-        android:src="@drawable/backpack"
         app:layout_constraintTop_toTopOf="parent" />
 
 
