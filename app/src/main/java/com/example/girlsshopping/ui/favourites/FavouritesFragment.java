@@ -1,6 +1,7 @@
 package com.example.girlsshopping.ui.favourites;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import com.example.girlsshopping.MainActivity;
 import com.example.girlsshopping.R;
 import com.example.girlsshopping.dialog.ShopDialogFragment;
 import com.example.girlsshopping.products.Product;
+import com.example.girlsshopping.products.ProductDetailActivity;
+import com.example.girlsshopping.products.ProductDetailFragment;
 import com.example.girlsshopping.products.ProductRecyclerViewAdapter;
 import com.example.girlsshopping.products.ProductsDataBase;
 import com.example.girlsshopping.ui.home.HomeFragment;
@@ -156,5 +159,6 @@ public class FavouritesFragment extends Fragment  implements  SwipeRefreshLayout
 
 
     }
+
 
 }
